@@ -73,4 +73,5 @@ They must follow the json format given in the template.
 
                 The terrainBricks.json file requires the mini terrain addon by goldtits.
 
+Height maps must use 8bit color. (8bit rgba)
 Contact me @ etpcdev@gmail.com

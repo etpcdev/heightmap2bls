@@ -1,2 +1,5 @@
 .git
 .venv
+.gitignore
+temp/*
+temp/
