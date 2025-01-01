@@ -1,0 +1,28 @@
+{
+    "bricks":[
+        {
+            "ui_name":"1x1x5",
+            "shape":[1,1,15],
+            "offset":[0,0],
+            "is_baseplate":0,
+            "print_id":"",
+            "color_fx_id":0,
+            "shape_fx_id":0,
+            "raycasting":1,
+            "colliding":1,
+            "rendering":1
+        },
+        {
+            "ui_name":"2x2x5",
+            "shape":[2,2,15],
+            "offset":[0.5,0.5],
+            "is_baseplate":0,
+            "print_id":"",
+            "color_fx_id":0,
+            "shape_fx_id":0,
+            "raycasting":1,
+            "colliding":1,
+            "rendering":1
+        }
+    ]
+}

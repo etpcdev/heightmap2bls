@@ -1,0 +1,6 @@
+.gitignore
+.git
+.venv
+temp/*
+temp/
+out/*
