@@ -1,6 +1,6 @@
+.gitignore
 .git
 .venv
-.gitignore
 temp/*
 temp/
 out/*
