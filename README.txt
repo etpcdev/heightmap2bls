@@ -6,16 +6,12 @@ Requirements
 
 Setup instructions
 {For Windows Users :: Make sure Python is installed to PATH.}
-    This program requires two external python libraries, numpy and pillow.
-    To install them, you can use the following commands:
 
     Windows: 
-        python -m pip install numpy
-        python -m pip install Pillow
+        python -m pip install -r requirements.txt
 
     Linux/MacOS:
-        pip install numpy
-        pip install Pillow
+        pip install -r requirements.txt
 
 Usage instructions
 There is only one mandatory argument, to select a heightmap as the program does not come packaged with a default heightmap.
@@ -71,7 +67,9 @@ They must follow the json format given in the template.
                 The second brick in the json file is the "optimization" brick. It should be 2x the first brick's width and length, 
                 but must be the same height, otherwise things will not generate properly.
 
-                The terrainBricks.json file requires the mini terrain addon by goldtits.
+                The terrainBricks.json file requires the mini terrain addon by goldtits (Brick_4n8brickH.zip).
+                    [MERP United discord server: https://discord.gg/EfQ22KGH8t]
+                    [Direct download: https://cdn.discordapp.com/attachments/525811965398876160/1055599397880201246/Brick_4n8brickH.zip?ex=67765dcc&is=67750c4c&hm=2faa96e7b56fe64d7638e380e1d385a6d0cc88e5f749c63d2f2e8854de5e2214&]
 
 Height maps must use 8bit color. (8bit rgba)
 Contact me @ etpcdev@gmail.com
