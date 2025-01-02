@@ -104,6 +104,13 @@ class MapGenerator:
                         self.__map[i+1][j][2]   = self.__map[i][j][2]
                         self.__map[i][j+1][2]   = self.__map[i][j][2]
                         self.__map[i+1][j+1][2] = self.__map[i][j][2]
+
+                        #fill vertical gaps for optimized bricks
+                        largest_gap = max(self.__map[i][j][3], self.__map[i+1][j][3], self.__map[i][j+1][3], self.__map[i+1][j+1][3])
+                        self.__map[i][j][3]     = largest_gap
+                        self.__map[i+1][j][3]   = largest_gap
+                        self.__map[i][j+1][3]   = largest_gap
+                        self.__map[i+1][j+1][3] = largest_gap
                         
                         #set brick to use brick type 2
                         self.__map[i][j][4]     = 1
