@@ -103,7 +103,7 @@ Outputs will by default be placed into the "out/" folder and be called map.bls u
 python hm2bls.py -hm example.png --output my_cool_map.bls
 ```
 
-It is possible to hotswap a save file in blockland, provided the game is started with the .bls file in its' "saves/" folder.
+It is possible to hotswap a save file in blockland, provided the game is started with the .bls file already in its' "saves/" folder.
 To do this, i recommend that you use the --output parameter and set it to your games' saves location, for example:
 
 ```bash
@@ -144,7 +144,7 @@ If the save file contains too many bricks, at the cost of generation time the pr
 To use brick optimization, use the --optimize flag.
 
 ```bash
-python hm2bls.py -hm example.png --gapfill
+python hm2bls.py -hm example.png --optimize
 ```
 
 In its' current state, this is imperfect and will probably result in some unfilled gaps if using the --gapfill flag.
