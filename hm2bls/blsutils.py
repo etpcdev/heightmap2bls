@@ -58,7 +58,7 @@ class BLS_ColorSet:
                         __color = BLS_Color(__r, __g, __b, __a)
                         __column.append(__color)
                         self.__count += 1
-                        self.mapped_colors[hash(__color)] = self.__count
+                        self.mapped_colors[hash(__color)] = self.__count - 1
                 else:
                     self.colorset.append(__column)
                     __column = []
