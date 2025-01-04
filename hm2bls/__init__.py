@@ -89,14 +89,14 @@ class MapGenerator:
     
     def optimize(self) -> None:
         #tries to optimise brickcount by annulling adjacent bricks of the same height and color up to a 2x2 grid
-        seen = []
+        seen = set()
         for i in range(len(self.__map)-1):
             for j in range(len(self.__map[i])-1):
                 #skip if the unique index has been seen before, or if the unique index of the next brick has been seen (to avoid corner clipping)
                 if self.__map[i][j][2] in seen or self.__map[i][j+1][2] in seen:
                     continue
                 else:
-                    seen.append(self.__map[i][j][2])
+                    seen.add(self.__map[i][j][2])
                     if len({self.__map[i][j][0], self.__map[i+1][j][0], self.__map[i][j+1][0], self.__map[i+1][j+1][0]}) == 1 and \
                        len({self.__map[i][j][1], self.__map[i+1][j][1], self.__map[i][j+1][1], self.__map[i+1][j+1][1]}) == 1:
                         
@@ -144,17 +144,19 @@ class MapGenerator:
     
     def create_save(self) -> None:
         #makes a list of all the bricks to be used in the save and hands it to the BLS_File handler
-        seen = []
+        seen = set()
         bricks = []
+        brick_count = 0
         brick_height = self.__bricks.brick_data["bricks"][0]["shape"][2]
         
         for i in range(0, len(self.__map)):
+            brick_row = ""
             for j in range(0, len(self.__map[i])):
                 if self.__map[i][j][2] in seen:
                     continue
                 else:
-                    while self.__map[i][j][3] > 0:
-                        seen.append(self.__map[i][j][2])
+                    for k in range(0, self.__map[i][j][3]):
+                        seen.add(self.__map[i][j][2])
                         out_brick = self.__make_brick(self.__map[i][j][4], self.__map[i][j][1])
                         
                         #choose the brick to use (only applicable if --optimize arg is used)
@@ -166,9 +168,11 @@ class MapGenerator:
                             y_offset = self.__bricks.brick_data["bricks"][1]["offset"][1]
                             out_brick.set_pos_large(i, j, new_z, x_offset, y_offset)
                             
-                        bricks.append(out_brick)
+                        brick_row += out_brick.get_brick()
+                        brick_count += 1
                         self.__map[i][j][3]-=1
+            bricks.append(brick_row)
         
-        save_file = BLS_File(bricks, self.__color_set)
+        save_file = BLS_File(bricks=bricks, brick_count=brick_count, colorset=self.__color_set)
         save_file.write(self.__output_path)
-        
+       

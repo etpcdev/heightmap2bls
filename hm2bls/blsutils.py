@@ -299,18 +299,20 @@ class BLS_Brick:
 class BLS_File:
     #defines a .bls save file
     #takes a list of bricks to write, the colorset to use and the hardcoded header
-    def __init__(self, bricks: list[BLS_Brick], colorset: BLS_ColorSet) -> None:
+    def __init__(self, bricks: list[BLS_Brick] | None = None, brick_count: int = 0, colorset: BLS_ColorSet = None) -> None:
         self.bricks = bricks
         self.data: str = \
             BLS_HEADER_WARNING + "\n" + \
             BLS_HEADER_DESCRIPTION + "\n" + \
             colorset.get_colorset() + \
-            BLS_HEADER_LINECOUNT + str(len(self.bricks)) + "\n"
-        
+            BLS_HEADER_LINECOUNT + str(brick_count) + "\n"
+                
     def write(self, path: str) -> None:
-        #writes the assembled .bls file to disk
+        assert self.bricks != None, "self.bricks must be a non empty list!"
+        
         with open(path, "w") as file:
             file.write(self.data)
-            print("Header done, writing in bricks...")
+            print("Header done, ready to write bricks...")
             for brick in self.bricks:
-                file.write(brick.get_brick())
+                file.write(brick)
+                

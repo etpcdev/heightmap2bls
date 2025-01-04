@@ -1,6 +1,3 @@
-.gitignore
 .git
 .venv
-temp/*
-temp/
-out/*
+hm2bls/__pycache__

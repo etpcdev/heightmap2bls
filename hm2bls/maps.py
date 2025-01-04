@@ -1,6 +1,7 @@
 from PIL import Image
 import numpy as np
 
+
 def load_heightmap(path: str, x: str | None, y: str | None) -> np.ndarray:
     #loads an image to be used as a height map and forcibly adds an alpha channel if it doesn't have one
     #rescales the map according to the cli args -x and -y
