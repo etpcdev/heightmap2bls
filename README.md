@@ -1,7 +1,7 @@
 # heightmap2bls
-A CLI tool for generating .bls files from a height maps and color maps.
+A CLI tool for generating blockland save files (.bls) from greyscale height maps and color maps.
 
-![img](img/img13.png)
+![img](img/grand_canyon7.png)
 
 
 ## Setup

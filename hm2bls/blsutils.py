@@ -57,8 +57,9 @@ class BLS_ColorSet:
                         
                         __color = BLS_Color(__r, __g, __b, __a)
                         __column.append(__color)
+                        self.mapped_colors[hash(__color)] = self.__count
                         self.__count += 1
-                        self.mapped_colors[hash(__color)] = self.__count - 1
+                        
                 else:
                     self.colorset.append(__column)
                     __column = []
@@ -88,12 +89,15 @@ class BLS_ColorSet:
         cm = (cm / 255)
         
         csm = np.zeros((cm.shape[0], cm.shape[1]), dtype=np.uint8)
-
+        
+        seen = set()
+        new_color_hash_index = {}
+        
         for i in range(0, len(cm)):
             for j in range(0,len(cm[0])):
                 color_hash = hash((cm[i][j][0],cm[i][j][1],cm[i][j][2],cm[i][j][3]))
-                if color_hash in self.mapped_colors:
-                    csm[i][j] = self.mapped_colors[color_hash]
+                if color_hash in seen:
+                    csm[i][j] = self.mapped_colors[new_color_hash_index[color_hash]]
                 else:
                     min_distance = float('inf')
                     closest_color = None
@@ -109,7 +113,8 @@ class BLS_ColorSet:
                                 if distance < min_distance:
                                     min_distance = distance
                                     closest_color = color
-                                    
+                    seen.add(color_hash)
+                    new_color_hash_index[color_hash] = hash(closest_color)              
                     csm[i][j] = self.mapped_colors[hash(closest_color)]
 
         return csm
@@ -301,18 +306,19 @@ class BLS_File:
     #takes a list of bricks to write, the colorset to use and the hardcoded header
     def __init__(self, bricks: list[BLS_Brick] | None = None, brick_count: int = 0, colorset: BLS_ColorSet = None) -> None:
         self.bricks = bricks
+        self.brick_count = brick_count
         self.data: str = \
             BLS_HEADER_WARNING + "\n" + \
             BLS_HEADER_DESCRIPTION + "\n" + \
             colorset.get_colorset() + \
-            BLS_HEADER_LINECOUNT + str(brick_count) + "\n"
+            BLS_HEADER_LINECOUNT + str(self.brick_count) + "\n"
                 
     def write(self, path: str) -> None:
         assert self.bricks != None, "self.bricks must be a non empty list!"
         
         with open(path, "w") as file:
             file.write(self.data)
-            print("Header done, ready to write bricks...")
+            print(f"Header done, ready to write {self.brick_count} bricks...")
             for brick in self.bricks:
                 file.write(brick)
                 
