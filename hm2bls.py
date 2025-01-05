@@ -10,7 +10,7 @@ def time_func(func):
         res = func(*args, **kwargs)
         end_time = time.time()
         exec_time = end_time - start_time
-        print(f"Map created in {exec_time:.4f} seconds")
+        print(f"[Map created in {exec_time:.4f} seconds]")
         return res
     return wrapper
 
@@ -150,7 +150,7 @@ def main():
     map.create_save()
     end_time = time.time()
     exec_time = end_time - start_time
-    print(f"\t[+]Finished in \t\t{exec_time:.4f} seconds")
+    print(f"\t[+]Finished in {exec_time:.4f} seconds")
     
     
 if __name__ == '__main__':
