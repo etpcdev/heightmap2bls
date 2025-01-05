@@ -177,17 +177,5 @@ Refer to the provided terrainBricks.json and defaultBricks.json files for more i
 
 ## Long generation times
 
-Generation times now mostly depend on the size of the map. The biggest bottleneck is mapping the color map's colors to the colorset.
-Other operations should be orders of magnitude quicker than prior versions, ex:
-
-Generating 806x806x1200 map with --optimize and --gapfill enabled:
-
-Prior versions
-- 33 Minutes to optimize bricks
-- 35 Minutes to generate and save map
-  
-Current version
-- 0.7841 seconds to optimize bricks
-- 4.4836 seconds to generate and save map
-
-If you want to quickly iterate over height maps, color maps or colorsets, i suggest not using many optional flags, and generating scaled down maps (10x10 - 50x50 instead of 250x250+). This should drastically reduce generation times.
+Generation times have been greatly improved in the latest version.
+For greater brick efficiency, consider using the terrainTall.json brickfile and Bricks_4n8brickT.zip addon located in the res/ folder.
