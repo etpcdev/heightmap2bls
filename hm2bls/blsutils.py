@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from enum import Flag, auto
+from .timer import timer
 import numpy as np
 import math
 
@@ -23,6 +24,7 @@ class BLS_Color:
 
     
 class BLS_ColorSet:
+    @timer
     def __init__(self,*, path: str = ""):
         assert path != "", "Empty path to colorset"
         
@@ -76,6 +78,7 @@ class BLS_ColorSet:
                 
         return self.__colorset_str
     
+    @timer
     def map_colors(self, color_map: np.ndarray) -> np.ndarray:
         #Maps color map to the closest color in the color set
         

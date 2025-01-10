@@ -1,5 +1,6 @@
 from .maps import load_heightmap, load_colormap, resize_z, clamp_step, ground
 from .blsutils import *
+from .timer import timer
 import json
 
 
@@ -7,8 +8,10 @@ class Bricks:
     #Must follow structure of brickTemplate.json
     brick_data: dict
 
+    @timer
     def __init__(self, path: str) -> None:
     #Load brick definitions from json file
+        path = str(path)
         
         if not path or not path.strip():
             raise ValueError("Invalid brick file path.")
@@ -69,7 +72,8 @@ class MapGenerator:
         self.__bl_id = bl_id
         self.__color_set = color_set
         self.__output_path = output_path
-        
+    
+    @timer
     def gap_fill(self) -> None:
         #Check adjacent bricks for vertical gaps
         #Calculate amount of bricks needed to fill gap
@@ -98,8 +102,7 @@ class MapGenerator:
                 if largest_gap > 0:
                     self.__map[i][j][self.VBC_INDEX] = largest_gap
 
-
-    
+    @timer
     def optimize(self) -> None:
         #Tries to optimize brickcount by annulling adjacent bricks of the same height and color up to a 2x2 grid
         
@@ -135,6 +138,7 @@ class MapGenerator:
                         self.__map[i][j+1][self.BTYPE_INDEX]   = 1
                         self.__map[i+1][j+1][self.BTYPE_INDEX] = 1
     
+    @timer
     def setup_map(self) -> None:
         #creates a map containing useful data
         
@@ -155,6 +159,7 @@ class MapGenerator:
         
         return BLS_Brick(brick_shape=shape, brick_ui_name=ui_name, color_id=color, brick_data=brick_data)
     
+    @timer
     def create_save(self) -> None:
         #Make list of bricks to write
         seen = set()

@@ -1,7 +1,8 @@
 from PIL import Image
+from .timer import timer
 import numpy as np
 
-
+@timer
 def load_heightmap(path: str, x: str | None, y: str | None) -> np.ndarray:
     #Loads image for heightmap, adds alpha channel and rescales to x,y
     #Returns red channel as height map
@@ -39,6 +40,7 @@ def load_heightmap(path: str, x: str | None, y: str | None) -> np.ndarray:
         height_map = height_map[:, :, :1].astype(np.uint32).squeeze(axis=2)
     return height_map
 
+@timer
 def load_colormap(path: str, x: str | None, y: str | None) -> np.ndarray:
     #Loads image for heightmap, adds alpha channel and rescales to x,y
     #Maintains color
@@ -74,6 +76,7 @@ def load_colormap(path: str, x: str | None, y: str | None) -> np.ndarray:
             
     return color_map
 
+@timer
 def resize_z(height_map: np.ndarray[np.uint32], z: str) -> np.ndarray:
     #Stretch heightmap to z
     min_val = height_map.min()
@@ -91,6 +94,7 @@ def resize_z(height_map: np.ndarray[np.uint32], z: str) -> np.ndarray:
     
     return height_map.astype(np.uint32)
 
+@timer
 def clamp_step(height_map: np.ndarray[np.uint32], step: str) -> np.ndarray:
     #Clamp to nearest step
     step = int(step)
@@ -98,6 +102,7 @@ def clamp_step(height_map: np.ndarray[np.uint32], step: str) -> np.ndarray:
     
     return height_map.astype(np.uint32)
 
+@timer
 def ground(height_map: np.ndarray[np.uint32]) -> np.ndarray:
     #Lowers map to the ground
     min_val = height_map.min()
