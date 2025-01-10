@@ -49,9 +49,9 @@ def main():
     print(f"Loading height map \"{args.heightmap}\"...")
     height_map = hm.load_heightmap(args.heightmap, args.x, args.y)
     
+    #Resize colormap == heightmap
     hm_x = height_map.shape[0]
     hm_y = height_map.shape[1]
-    
     print(f"Loading color map \"{args.colormap}\"...")
     color_map = hm.load_colormap(args.colormap, hm_x, hm_y)
     
@@ -78,7 +78,9 @@ def main():
     bricks = hm.Bricks(args.bricks)
     
     print(f"Setting up map...")
-    map = hm.MapGenerator(bricks=bricks, height_map=height_map, color_map=color_map, bl_id=args.blid, color_set=color_set, output_path=args.output)
+    map = hm.MapGenerator(bricks=bricks, height_map=height_map, 
+                          color_map=color_map, bl_id=args.blid, 
+                          color_set=color_set, output_path=args.output)
     map.setup_map()
     
     
