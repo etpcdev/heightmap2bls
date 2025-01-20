@@ -1,6 +1,5 @@
 import argparse
 import hm2bls as hm
-import time
 from pathlib import Path
 
 
