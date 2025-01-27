@@ -5,12 +5,12 @@ import json
 
 
 class Bricks:
-    #Must follow structure of brickTemplate.json
+    # Must follow structure of brickTemplate.json
     brick_data: dict
 
     @timer
     def __init__(self, path: str) -> None:
-    #Load brick definitions from json file
+    # Load brick definitions from json file
         path = str(path)
         
         if not path or not path.strip():

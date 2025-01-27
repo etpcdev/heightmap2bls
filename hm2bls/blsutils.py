@@ -170,8 +170,8 @@ class BLS_ItemData():
 
 
 class BLS_BrickData:
-    #Assembles the brick's additional data
-    #(+- entries in BLS file)
+    # Assembles the brick's additional data
+    # (+- entries in BLS file)
     def __init__(self, flags: BLS_BDFlags  | None = None, *, 
                  owner_data: BLS_OwnerData | None = None,
                  event_data: BLS_EventData | list[BLS_EventData] | None = None,
@@ -202,14 +202,14 @@ class BLS_BrickData:
                 self.data += "+-ITEM " + item_data.it_ui_name + " " + str(item_data.it_direction) + " " + str(item_data.it_position) + " " + str(item_data.it_respawn_time) + "\n"
     
     def get_data(self) -> str:
-        #Returns data string
-        #Has trailing new line
+        # Returns data string
+        # Has trailing new line
         return self.data
 
 
 class BLS_BrickPosVec3:
-    #Special vec3 for brick coords
-    #Needs reworking
+    # Special vec3 for brick coords
+    # Needs reworking
     def __init__(self, x: float, y: float, z: float) -> None:
         self.x = float(round(x/2, 2))
         self.y = float(round(y/2, 2))
@@ -217,9 +217,9 @@ class BLS_BrickPosVec3:
 
 
 class BLS_BrickShapeVec3:
-    #Defines a bricks' shape. 
-    #A 1x1x1 brick is 1x1x3 on this scale
-    #z is measured in plate height
+    # Defines a bricks' shape. 
+    # A 1x1x1 brick is 1x1x3 on this scale
+    # z is measured in plate height
     def __init__(self, x: int, y: int, z: int) -> None:
         self.x = x
         self.y = y
@@ -227,7 +227,7 @@ class BLS_BrickShapeVec3:
             
 
 class BLS_Brick:
-    #Defines a brick and additional data for BLS file
+    # Defines a brick and additional data for BLS file
     def __init__(self, *, 
                  brick_shape: BLS_BrickShapeVec3,
                  brick_ui_name: str, 
@@ -267,19 +267,19 @@ class BLS_Brick:
             self.__brick_data = brick_data
             
     def set_pos(self, x: float, y: float, z: float) -> None:
-        #Change brick pos manually
+        # Change brick pos manually
         pos = BLS_BrickPosVec3(self.brick_shape.x * x, self.brick_shape.y * y, self.brick_shape.z/2 + z)
         self.__brick_position = pos
         
     def set_pos_large(self, x: float, y: float, z: float, x_offset: float, y_offset: float) -> None:
-        #Change brick pos manually with an offset
+        # Change brick pos manually with an offset
         pos = BLS_BrickPosVec3(self.brick_shape.x/2 * x, self.brick_shape.y/2 * y, self.brick_shape.z/2 + z)
         pos.x = pos.x + x_offset
         pos.y = pos.y + y_offset
         self.__brick_position = pos
     
     def get_brick(self) -> str:
-        #Returns brick string for BLS file
+        # Returns brick string for BLS file
         self.brick = "" + \
             self.__brick_name                           + " " + \
             str(f"{self.__brick_position.x:.2f}")       + " " + \
@@ -306,7 +306,7 @@ class BLS_Brick:
 
 
 class BLS_File:
-    #Interface for a BLS file
+    # Interface for a BLS file
     def __init__(self, bricks: list[BLS_Brick] | None = None, brick_count: int = 0, colorset: BLS_ColorSet = None) -> None:
         self.bricks = bricks
         self.brick_count = brick_count
