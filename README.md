@@ -41,27 +41,27 @@ python3 hm2bls.py -hm [path/to/a/height/map.png]
 ```bash
 usage: hm2bls [-h] -hm HEIGHTMAP [-cm COLORMAP] [-cs COLORSET] [-o OUTPUT] [-x X] [-y Y] [-z Z] [--blid BLID] [--ground] [--gapfill] [--optimize] [--bricks BRICKS] [--step STEP]
 
-Convert heightmaps and color maps into .bls files.
+Generate Blockland save files from 8-bit Heightmaps!
 
 options:
   -h, --help            show this help message and exit
   -hm HEIGHTMAP, --heightmap HEIGHTMAP
-                        heightmap file to use.
+                        path to the heightmap
   -cm COLORMAP, --colormap COLORMAP
-                        colormap file to use.
+                        path to the color map
   -cs COLORSET, --colorset COLORSET
-                        colorset file to use.
+                        path to the colorset
   -o OUTPUT, --output OUTPUT
-                        output file name.
-  -x X                  define x axis size.
-  -y Y                  define y axis size.
-  -z Z                  adjust the height from the lowest point.
-  --blid BLID           set the BL_ID to save the map under.
-  --ground              sit the map on the ground at it's lowest point.
-  --gapfill             fill steep vertical gaps.
-  --optimize            attempts to optimize the brickcount by using the second brick from a file.
-  --bricks BRICKS       select the file that defines which bricks to use.
-  --step STEP           define the vertical step of the map. (1 = plate, 3 = brick)
+                        output filepath
+  -x X                  define x axis size
+  -y Y                  define y axis size
+  -z Z                  define z axis size
+  --blid BLID           save the map with a custom BL_ID.
+  --ground              sit the map on the ground
+  --gapfill             fill vertical gaps
+  --optimize            attempts to optimize the brickcount by using the second brick from a file
+  --bricks BRICKS       select the file that defines which bricks to use
+  --step STEP           define the vertical step of the map (1 = plate, 3 = brick)
 ```
 
 ## Height maps
