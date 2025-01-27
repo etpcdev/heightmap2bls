@@ -13,7 +13,7 @@ BLS_HEADER_LINECOUNT = "Linecount "
 
 @dataclass
 class BLS_Color:
-    #RGBA value: 0.0 -> 1.0
+    # RGBA value: 0.0 -> 1.0
     r: float
     g: float
     b: float
@@ -35,6 +35,7 @@ class BLS_ColorSet:
         
         with open(path,"r") as file:
             __column = []
+            
             for line in file:
                 if line != '\n':
                     if "DIV" in line.split(":"):
@@ -60,10 +61,17 @@ class BLS_ColorSet:
                 else:
                     self.colorset.append(__column)
                     __column = []
+            
+            # We check to see if the column buffer is empty in case there are still colors left to add
+            # This happens if a file doesn't terminate with a newline character (standard on POSIX, not windows)
+            # This typically results in a truncated colorset and missing bricks
+            if __column:
+                self.colorset.append(__column)
+
         
     def get_colorset(self):
-        #Colorset string for BLS file 
-        #Has a trailing newline
+        # Colorset string for BLS file 
+        # Has a trailing newline
         
         for column in self.colorset:
             for color in column:
@@ -71,16 +79,14 @@ class BLS_ColorSet:
                     self.__colorset_str += f"{color.r:.6f} {color.g:.6f} {color.b:.6f} {color.a:.6f}\n"
             
         remainder = 64 - self.__count
-        
         while remainder > 0:
             self.__colorset_str += "1.000000 0.000000 1.000000 0.000000\n"
             remainder -= 1
-                
         return self.__colorset_str
     
     @timer
     def map_colors(self, color_map: np.ndarray) -> np.ndarray:
-        #Maps color map to the closest color in the color set
+        # Maps color map to the closest color in the color set
         
         cm = color_map.astype(np.float32)
         cm = (cm / 255)
@@ -166,7 +172,7 @@ class BLS_ItemData():
 class BLS_BrickData:
     #Assembles the brick's additional data
     #(+- entries in BLS file)
-    def __init__(self, flags: BLS_BDFlags, *, 
+    def __init__(self, flags: BLS_BDFlags  | None = None, *, 
                  owner_data: BLS_OwnerData | None = None,
                  event_data: BLS_EventData | list[BLS_EventData] | None = None,
                  emitter_data: BLS_EmitterData | None = None,
@@ -174,25 +180,26 @@ class BLS_BrickData:
                  item_data:  BLS_ItemData  | None = None) -> None:
         self.data = ""
         
-        if BLS_BDFlags.OWNER in flags:
-            self.data += "+-OWNER " + str(owner_data.ow_bl_id) + "\n"
-        
-        if BLS_BDFlags.EVENT in flags:
-            if len(event_data) == 1:
-                self.data += "+-EVENT " + str(event_data.ev_delay) + " " + str(event_data.ev_enabled) + " " + event_data.ev_input + " " + str(event_data.ev_unknown) + " " + event_data.ev_target + " " + event_data.ev_output + " " + str(event_data.ev_output_field) + "\n"
-            else:
-                for event in event_data:
-                    if isinstance(event, BLS_EventData):
-                        self.data += "+-EVENT " + str(event.ev_delay) + " " + str(event.ev_enabled) + " " + event.ev_input + " " + str(event.ev_unknown) + " " + event.ev_target + " " + event.ev_output + " " + str(event.ev_output_field) + "\n"
-        
-        if BLS_BDFlags.EMITTER in flags:
-            self.data += "+-EMITTER " + emitter_data.em_ui_name + " " + str(emitter_data.em_direction) + "\n"
-        
-        if BLS_BDFlags.LIGHT in flags:
-            self.data += "+-LIGHT " + light_data.li_ui_name + " " + str(light_data.li_unknown) + "\n"
-        
-        if BLS_BDFlags.ITEM in flags:
-            self.data += "+-ITEM " + item_data.it_ui_name + " " + str(item_data.it_direction) + " " + str(item_data.it_position) + " " + str(item_data.it_respawn_time) + "\n"
+        if flags:
+            if BLS_BDFlags.OWNER in flags:
+                self.data += "+-OWNER " + str(owner_data.ow_bl_id) + "\n"
+            
+            if BLS_BDFlags.EVENT in flags:
+                if len(event_data) == 1:
+                    self.data += "+-EVENT " + str(event_data.ev_delay) + " " + str(event_data.ev_enabled) + " " + event_data.ev_input + " " + str(event_data.ev_unknown) + " " + event_data.ev_target + " " + event_data.ev_output + " " + str(event_data.ev_output_field) + "\n"
+                else:
+                    for event in event_data:
+                        if isinstance(event, BLS_EventData):
+                            self.data += "+-EVENT " + str(event.ev_delay) + " " + str(event.ev_enabled) + " " + event.ev_input + " " + str(event.ev_unknown) + " " + event.ev_target + " " + event.ev_output + " " + str(event.ev_output_field) + "\n"
+            
+            if BLS_BDFlags.EMITTER in flags:
+                self.data += "+-EMITTER " + emitter_data.em_ui_name + " " + str(emitter_data.em_direction) + "\n"
+            
+            if BLS_BDFlags.LIGHT in flags:
+                self.data += "+-LIGHT " + light_data.li_ui_name + " " + str(light_data.li_unknown) + "\n"
+            
+            if BLS_BDFlags.ITEM in flags:
+                self.data += "+-ITEM " + item_data.it_ui_name + " " + str(item_data.it_direction) + " " + str(item_data.it_position) + " " + str(item_data.it_respawn_time) + "\n"
     
     def get_data(self) -> str:
         #Returns data string

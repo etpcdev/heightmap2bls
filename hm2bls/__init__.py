@@ -154,8 +154,13 @@ class MapGenerator:
         #Creates a brick using brick file data
         shape = BLS_BrickShapeVec3(*self.__bricks.brick_data["bricks"][index]["shape"])
         ui_name = self.__bricks.brick_data["bricks"][index]["ui_name"]
-        owner_data = BLS_OwnerData(int(self.__bl_id))
-        brick_data = BLS_BrickData(BLS_BDFlags.OWNER, owner_data=owner_data)
+        
+        if self.__bl_id != "-1":
+            owner_data = BLS_OwnerData(int(self.__bl_id))
+            brick_data = BLS_BrickData(BLS_BDFlags.OWNER, owner_data=owner_data)
+        
+        elif self.__bl_id == "-1":
+            brick_data = BLS_BrickData()
         
         return BLS_Brick(brick_shape=shape, brick_ui_name=ui_name, color_id=color, brick_data=brick_data)
     
@@ -194,7 +199,7 @@ class MapGenerator:
                             
                         brick_row += out_brick.get_brick()
                         brick_count += 1
-                        self.__map[i][j][self.VBC_INDEX]-=1
+                        self.__map[i][j][self.VBC_INDEX] -= 1
                         
             bricks.append(brick_row)
         
