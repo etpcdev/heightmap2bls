@@ -1,10 +1,11 @@
 from PIL import Image
+from .timer import timer
 import numpy as np
 
-
+@timer
 def load_heightmap(path: str, x: str | None, y: str | None) -> np.ndarray:
-    #loads an image to be used as a height map and forcibly adds an alpha channel if it doesn't have one
-    #rescales the map according to the cli args -x and -y
+    #Loads image for heightmap, adds alpha channel and rescales to x,y
+    #Returns red channel as height map
     with Image.open(path) as img:
         img = img.convert("RGBA")
         height_map: np.ndarray = np.array(img, dtype=np.uint8)
@@ -16,7 +17,7 @@ def load_heightmap(path: str, x: str | None, y: str | None) -> np.ndarray:
             x = height_map.shape[1]
         if y == None:
             y = height_map.shape[0]
-        
+
         
         if y != height_map.shape[0]:
             new_size.append(int(y))
@@ -35,13 +36,14 @@ def load_heightmap(path: str, x: str | None, y: str | None) -> np.ndarray:
             height_map = Image.fromarray(height_map).resize(new_size, Image.Resampling.BICUBIC)
             height_map = np.array(height_map)
             
-        #squash the grayscale height map into a 2d array
+        #Discards green, blue and alpha channels
         height_map = height_map[:, :, :1].astype(np.uint32).squeeze(axis=2)
     return height_map
 
+@timer
 def load_colormap(path: str, x: str | None, y: str | None) -> np.ndarray:
-    #does the same as above but keeps rgba data
-    #rescales the map according to the cli args -x and -y
+    #Loads image for heightmap, adds alpha channel and rescales to x,y
+    #Maintains color
     with Image.open(path) as img:
         img = img.convert("RGBA")
         color_map: np.ndarray = np.array(img, dtype=np.uint8)
@@ -74,8 +76,9 @@ def load_colormap(path: str, x: str | None, y: str | None) -> np.ndarray:
             
     return color_map
 
+@timer
 def resize_z(height_map: np.ndarray[np.uint32], z: str) -> np.ndarray:
-    #stretches the heightmap to z flat bricks 
+    #Stretch heightmap to z
     min_val = height_map.min()
     max_val = height_map.max()
     z = int(z)
@@ -86,20 +89,22 @@ def resize_z(height_map: np.ndarray[np.uint32], z: str) -> np.ndarray:
     if max_val == 0: 
         return np.zeros_like(height_map, dtype=np.uint32)
     
-    #this should preserve the minimum height and stretch the other values to fit into z + min height
+    #This should preserve the minimum height and stretch the other values to fit into z + min height
     height_map = min_val + ((height_map - min_val)/(max_val - min_val) * (z))
     
     return height_map.astype(np.uint32)
 
+@timer
 def clamp_step(height_map: np.ndarray[np.uint32], step: str) -> np.ndarray:
-    #clamps the map to the nearest step
+    #Clamp to nearest step
     step = int(step)
     height_map = np.round(height_map / step) * step
     
     return height_map.astype(np.uint32)
 
+@timer
 def ground(height_map: np.ndarray[np.uint32]) -> np.ndarray:
-    #lowers the map to the ground if it isn't already
+    #Lowers map to the ground
     min_val = height_map.min()
     height_map = (height_map - min_val)
     return height_map.astype(np.uint32)
