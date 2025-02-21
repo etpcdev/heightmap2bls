@@ -26,6 +26,23 @@ pip install -r requirements.txt
 
 ## Usage
 
+### GUI
+
+The GUI is currently just a prototype and is not extensively tested, but it should make creating maps a bit less of a hassle!
+
+#### Windows:
+If your python is set up to automatically recognize .py files, simply double click main.py.
+If not, you can also run
+```bash
+python main.py
+```
+#### Linux/MacOS:
+```bash
+python3 main.py
+```
+
+### CLI
+
 #### Windows:
 ```bash
 python hm2bls.py -hm [path/to/a/height/map.png]
