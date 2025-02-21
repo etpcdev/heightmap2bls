@@ -158,7 +158,7 @@ class hm2bls(QMainWindow):
         colormap = self.__colormap
         colorset = self.__colorset
         bricks   = self.__bricks
-        output   = self.__out
+        output   = file_path
         step     = self.ui.sb_step.value()
         blid     = self.ui.sb_blid.value()
         ground   = self.ui.cb_ground.isEnabled()
