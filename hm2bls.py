@@ -79,11 +79,11 @@ def main():
 
     # Load brick file
     print(f"Loading brick file \"{args.bricks}\"...")
-    bricks = hm.Bricks(args.bricks)
+    brick_file = hm.Bricks(args.bricks)
     
     # Set up map
     print(f"Setting up map...")
-    map = hm.MapGenerator(bricks=bricks, height_map=height_map, 
+    map = hm.MapGenerator(bricks=brick_file, height_map=height_map, 
                           color_map=color_map, bl_id=args.blid, 
                           color_set=color_set, output_path=args.output)
     map.setup_map()
