@@ -4,7 +4,7 @@ from pathlib import Path
 
 
 def main():
-    #Set up default paths
+    # Set up default paths
     script_dir      = Path(__file__).parent.resolve()
     path_def_cm     = script_dir / "res" / "default" / "colorMap.png"
     path_def_cs     = script_dir / "res" / "default" / "colorSet.txt"
@@ -29,7 +29,7 @@ def main():
     
     args = parser.parse_args()
     
-    #Display settings used
+    # Display settings used
     print(f"Generating \"{args.output}\" with settings:\n",
           f"-> Heightmap:\t{args.heightmap}\n",
           f"-> Colormap:\t{args.colormap}\n",
@@ -44,53 +44,61 @@ def main():
           f"-> Brick File:\t{args.bricks}\n",
           f"-> Step:\t{args.step}\n")
     
-    #load and resize the height map and color map
+    # Load and resize the height map
     print(f"Loading height map \"{args.heightmap}\"...")
     height_map = hm.load_heightmap(args.heightmap, args.x, args.y)
     
-    #Resize colormap == heightmap
+    # Load and resize colormap == heightmap
     hm_x = height_map.shape[0]
     hm_y = height_map.shape[1]
     print(f"Loading color map \"{args.colormap}\"...")
     color_map = hm.load_colormap(args.colormap, hm_x, hm_y)
     
+    # Load colorset
     print(f"Loading colorset \"{args.colorset}\"...")
     color_set = hm.BLS_ColorSet(path=args.colorset)
 
+    # Map colorset
     print(f"Mapping colorset...")
     color_map = color_set.map_colors(color_map=color_map)
 
-
+    # Resize z axis
     if args.z:
         print(f"Resizing z axis to {args.z}...")
         height_map = hm.resize_z(height_map, args.z)
 
+    # Clamp z axis to step
     if args.step != "1":
         print(f"Clamping z axis to step {args.step}...")
         height_map = hm.clamp_step(height_map, args.step)
     
+    # Sit map on the ground
     if args.ground:
         print(f"Grounding map...")
         height_map = hm.ground(height_map)
 
+    # Load brick file
     print(f"Loading brick file \"{args.bricks}\"...")
     bricks = hm.Bricks(args.bricks)
     
+    # Set up map
     print(f"Setting up map...")
     map = hm.MapGenerator(bricks=bricks, height_map=height_map, 
                           color_map=color_map, bl_id=args.blid, 
                           color_set=color_set, output_path=args.output)
     map.setup_map()
     
-    
+    # Gapfill
     if args.gapfill:
         print(f"Filling gaps...")
         map.gap_fill()
     
+    # Brick optimization
     if args.optimize:
         print(f"Optimizing bricks...")
         map.optimize()
         
+    # Create save file
     print(f"Creating .bls file \"{args.output}\"...")
     map.create_save()
     
