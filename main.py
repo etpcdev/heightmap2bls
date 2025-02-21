@@ -1,14 +1,13 @@
 import sys
 
 from PySide6.QtWidgets import QApplication, QMainWindow, QGraphicsScene, QGraphicsPixmapItem, QFileDialog
-from PySide6.QtGui import QPixmap
+from PySide6.QtGui import QPixmap, QImageReader
 from PySide6.QtCore import Qt
 from gui.main_gui import Ui_MainWindow
 from pathlib import Path
 from platformdirs import user_pictures_path
 
 import hm2bls as hm
-
 
 class hm2bls(QMainWindow):
     def __init__(self, cm: Path, cs: Path, bricks: Path, out: Path, pictures: Path):
@@ -145,11 +144,15 @@ class hm2bls(QMainWindow):
         
         
     def start_generation(self):
-        file_path, _ = QFileDialog.getSaveFileName(self, "Select a location to save to", "./out")
+        file_path, selected_filter = QFileDialog.getSaveFileName(self, "Select a location to save to", "./out/map.bls", "Blockland save file (*.bls)")
         
         if not file_path:
             return
         
+        # Make sure the file is saved with .bls
+        if "(*.bls)" in selected_filter and not file_path.endswith(".bls"):
+            file_path += ".bls"
+            
         # Get params
         heightmap = self.__heightmap
         x = str(self.ui.sb_x.value())
@@ -228,5 +231,7 @@ def main():
 
         
 if __name__ == "__main__":
+    # Bypass 256MiB limit on linux
+    QImageReader.setAllocationLimit(0)
     main()
     
