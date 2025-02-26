@@ -153,7 +153,14 @@ class MapGenerator:
     def __make_brick(self, index: int, color: int) -> BLS_Brick:
         #Creates a brick using brick file data
         shape = BLS_BrickShapeVec3(*self.__bricks.brick_data["bricks"][index]["shape"])
-        ui_name = self.__bricks.brick_data["bricks"][index]["ui_name"]
+        ui_name =      self.__bricks.brick_data["bricks"][index]["ui_name"]
+        is_baseplate = self.__bricks.brick_data["bricks"][index]["is_baseplate"]
+        print_id =     self.__bricks.brick_data["bricks"][index]["print_id"]
+        color_fx_id =  self.__bricks.brick_data["bricks"][index]["color_fx_id"]
+        shape_fx_id =  self.__bricks.brick_data["bricks"][index]["shape_fx_id"]
+        raycasting =   self.__bricks.brick_data["bricks"][index]["raycasting"]
+        colliding =    self.__bricks.brick_data["bricks"][index]["colliding"]
+        rendering =    self.__bricks.brick_data["bricks"][index]["rendering"]
         
         if self.__bl_id != "-1":
             owner_data = BLS_OwnerData(int(self.__bl_id))
@@ -162,7 +169,18 @@ class MapGenerator:
         elif self.__bl_id == "-1":
             brick_data = BLS_BrickData()
         
-        return BLS_Brick(brick_shape=shape, brick_ui_name=ui_name, color_id=color, brick_data=brick_data)
+        return BLS_Brick(brick_shape=shape,
+                         brick_ui_name=ui_name,
+                         is_baseplate=is_baseplate,
+                         color_id=color,
+                         print_id=print_id,
+                         color_fx_id=color_fx_id,
+                         shape_fx_id=shape_fx_id,
+                         raycasting=raycasting,
+                         colliding=colliding,
+                         rendering=rendering,
+                         brick_data=brick_data
+                         )
     
     @timer
     def create_save(self) -> None:

@@ -1,0 +1,28 @@
+{
+    "bricks":[
+        {
+            "ui_name":"1x1 Print",
+            "shape":[1,1,3],
+            "offset":[0,0],
+            "is_baseplate":0,
+            "print_id":"Letters/E",
+            "color_fx_id":6,
+            "shape_fx_id":1,
+            "raycasting":1,
+            "colliding":1,
+            "rendering":1
+        },
+        {
+            "ui_name":"2x2",
+            "shape":[2,2,3],
+            "offset":[0.5,0.5],
+            "is_baseplate":1,
+            "print_id":"",
+            "color_fx_id":0,
+            "shape_fx_id":0,
+            "raycasting":0,
+            "colliding":0,
+            "rendering":0
+        }
+    ]
+}
