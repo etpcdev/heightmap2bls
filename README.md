@@ -28,6 +28,8 @@ pip install -r requirements.txt
 
 ### GUI
 
+![img](img/hm2blsGUI.png)
+
 ***IMPORTANT*** -> If you have previously used the software, delete all files, download the latest version & follow the setup steps again! There are new requirements.
 
 The GUI is currently just a prototype and is not extensively tested, but it should make creating maps a bit less of a hassle!
