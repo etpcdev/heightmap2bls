@@ -1,7 +1,7 @@
 import sys
 
 from PySide6.QtWidgets import QApplication, QMainWindow, QGraphicsScene, QGraphicsPixmapItem, QFileDialog
-from PySide6.QtGui import QPixmap, QImageReader
+from PySide6.QtGui import QPixmap, QImageReader, QIcon
 from PySide6.QtCore import Qt
 from gui.main_gui import Ui_MainWindow
 from pathlib import Path
@@ -14,6 +14,10 @@ class hm2bls(QMainWindow):
         super().__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+        
+        # Set the application icon
+        self.setWindowTitle("Heightmap2bls")
+        self.setWindowIcon(QIcon("./img/icon.png"))
         
         self.__heightmap = ""
         self.__colormap  = str(cm)
